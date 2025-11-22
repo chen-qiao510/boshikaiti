@@ -1,0 +1,323 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>博士开题成绩娱乐查询</title>
+    <!-- 引入 Tailwind CSS 用于快速样式 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* 简单的淡入动画 */
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react": "https://aistudiocdn.com/react@^19.2.0",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.0/",
+    "react/": "https://aistudiocdn.com/react@^19.2.0/",
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.554.0"
+  }
+}
+</script>
+<link rel="stylesheet" href="/index.css">
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col">
+
+    <!-- 页面主体 -->
+    <main class="flex-grow w-full max-w-3xl mx-auto px-4 py-8 sm:px-6">
+        
+        <!-- 1. 顶部标题区 -->
+        <header class="text-center mb-10 space-y-3">
+            <div class="inline-flex items-center justify-center w-16 h-16 bg-indigo-600 rounded-full shadow-lg mb-4">
+                <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 14l9-5-9-5-9 5 9 5z"></path>
+                    <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"></path>
+                </svg>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
+                博士开题成绩娱乐查询系统
+            </h1>
+            <div class="inline-block px-4 py-1.5 bg-rose-50 border border-rose-100 rounded-full">
+                <p class="text-xs sm:text-sm text-rose-600 font-medium">
+                    ⚠️ 本页面纯属虚构，仅供娱乐，与真实人物、学校和成绩无关。
+                </p>
+            </div>
+        </header>
+
+        <!-- 2. 查询功能区 -->
+        <section class="bg-white rounded-2xl shadow-xl p-6 md:p-8 border border-slate-100 mb-10 relative overflow-hidden">
+            <!-- 装饰背景 -->
+            <div class="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-indigo-50 rounded-full opacity-50 blur-2xl"></div>
+            
+            <div class="relative z-10">
+                <div class="flex flex-col sm:flex-row gap-3">
+                    <div class="relative flex-grow">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            id="nameInput"
+                            class="block w-full pl-10 pr-3 py-3 border border-slate-200 rounded-xl leading-5 bg-slate-50 placeholder-slate-400 focus:outline-none focus:bg-white focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition duration-200"
+                            placeholder="请输入要查询的姓名"
+                        >
+                    </div>
+                    <button 
+                        id="searchBtn"
+                        class="flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-md transition-all active:scale-95"
+                    >
+                        查询
+                    </button>
+                </div>
+
+                <!-- 结果展示区域 -->
+                <div id="resultArea" class="mt-8 hidden">
+                    <!-- 内容将由 JS 动态填充 -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. 开题人员名单区 -->
+        <section>
+            <h2 class="text-xl font-bold text-slate-800 flex items-center mb-5">
+                <span class="w-1.5 h-6 bg-indigo-600 rounded mr-3"></span>
+                开题人员名单
+            </h2>
+            
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-slate-200">
+                        <thead class="bg-slate-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider w-1/4">姓名</th>
+                                <th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-slate-500 uppercase tracking-wider">开题题目</th>
+                            </tr>
+                        </thead>
+                        <tbody id="rankTableBody" class="bg-white divide-y divide-slate-200">
+                            <!-- 表格行将由 JS 生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-6 text-center text-slate-400 text-sm border-t border-slate-200 mt-8">
+        <p>本查询系统仅供娱乐，所有信息为虚构。</p>
+    </footer>
+
+    <script>
+        // ==========================================
+        // 1. 学生数据定义 (Student Data)
+        // ==========================================
+        const students = [
+            {
+                rank: 1,
+                name: "吴欣洲",
+                topic: "黏着感知与制动力分配",
+                score: 99
+            },
+            {
+                rank: 2,
+                name: "张伟",
+                topic: "高速列车气动噪声仿真与控制研究",
+                score: 95
+            },
+            {
+                rank: 3,
+                name: "李娜",
+                topic: "基于深度学习的桥梁结构健康监测",
+                score: 93
+            },
+            {
+                rank: 4,
+                name: "王强",
+                topic: "城市轨道交通能耗优化策略",
+                score: 91
+            },
+            {
+                rank: 5,
+                name: "陈思",
+                topic: "复杂环境下无人机路径规划算法",
+                score: 89
+            },
+            {
+                rank: 6,
+                name: "刘洋",
+                topic: "新型纳米复合材料的制备与性能",
+                score: 88
+            },
+            {
+                rank: 7,
+                name: "赵雷",
+                topic: "智能电网分布式能源调度系统",
+                score: 86
+            },
+            {
+                rank: 8,
+                name: "孙芳",
+                topic: "软体机器人柔性传感器设计",
+                score: 84
+            },
+            {
+                rank: 9,
+                name: "周杰",
+                topic: "面向6G的超密集网络干扰管理",
+                score: 82
+            },
+            {
+                rank: 10,
+                name: "郑浩",
+                topic: "大型工业设备故障预测与诊断",
+                score: 80
+            },
+            {
+                rank: 11,
+                name: "陈冠桥",
+                topic: "基于代理模型的制动盘温升预测与试验",
+                score: 59
+            }
+        ];
+
+        // ==========================================
+        // 2. DOM 元素获取
+        // ==========================================
+        const nameInput = document.getElementById('nameInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const resultArea = document.getElementById('resultArea');
+        const rankTableBody = document.getElementById('rankTableBody');
+
+        // ==========================================
+        // 3. 核心功能逻辑
+        // ==========================================
+
+        // 初始化：渲染人员名单表格（只显示姓名和题目）
+        function renderTable() {
+            let html = '';
+            students.forEach(student => {
+                html += `
+                    <tr class="hover:bg-slate-50 transition-colors duration-150">
+                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900">
+                            ${student.name}
+                        </td>
+                        <td class="px-6 py-4 text-sm text-slate-600">
+                            ${student.topic}
+                        </td>
+                    </tr>
+                `;
+            });
+            rankTableBody.innerHTML = html;
+        }
+
+        // 查询功能
+        function handleSearch() {
+            const query = nameInput.value.trim();
+            
+            // 清空并显示区域
+            resultArea.innerHTML = '';
+            resultArea.classList.remove('hidden');
+            resultArea.className = "mt-8 fade-in"; // 触发动画
+
+            // 情况 1: 输入为空
+            if (!query) {
+                resultArea.innerHTML = `
+                    <div class="flex items-center p-4 bg-amber-50 text-amber-800 rounded-lg border border-amber-100">
+                        <span class="mr-2">💡</span>
+                        <span>请先输入姓名，然后再点击查询。</span>
+                    </div>
+                `;
+                return;
+            }
+
+            // 查找学生
+            const student = students.find(s => s.name === query);
+
+            // 情况 2: 找到了
+            if (student) {
+                const isFirst = student.rank === 1;
+                // 如果是最后一名（Rank 11），给一个灰色的、稍微惨淡一点的样式，或者普通样式
+                const isLast = student.rank === 11;
+                
+                let cardBg = 'from-indigo-500 to-purple-600';
+                if (isFirst) cardBg = 'from-yellow-400 to-amber-600';
+                if (isLast) cardBg = 'from-slate-400 to-slate-600'; // 灰色调
+
+                const scoreColor = isFirst ? 'text-amber-500' : (isLast ? 'text-slate-500' : 'text-emerald-500');
+
+                resultArea.innerHTML = `
+                    <div class="bg-gradient-to-br ${cardBg} rounded-xl p-1 shadow-lg transform transition-all">
+                        <div class="bg-white rounded-lg p-6 text-center relative overflow-hidden">
+                            <div class="relative z-10">
+                                <div class="mb-4">
+                                    <span class="inline-block px-3 py-1 bg-indigo-50 text-indigo-700 rounded-full text-sm font-bold mb-3">
+                                        查询成功
+                                    </span>
+                                    <h3 class="text-3xl font-extrabold text-slate-900 mb-1">${student.name}</h3>
+                                    <p class="text-lg font-semibold text-indigo-600">当前排名：第 <span class="text-2xl">${student.rank}</span> 名</p>
+                                </div>
+                                
+                                <div class="bg-slate-50 rounded-xl p-4 border border-slate-100 text-left space-y-4">
+                                    <div>
+                                        <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">开题题目</p>
+                                        <p class="text-lg font-medium text-slate-800 mt-1 leading-snug">${student.topic}</p>
+                                    </div>
+                                    <div class="border-t border-slate-200 pt-3 flex justify-between items-end">
+                                        <div>
+                                            <p class="text-xs text-slate-400 uppercase font-bold tracking-wider">综合得分</p>
+                                        </div>
+                                        <p class="text-4xl font-black ${scoreColor} leading-none">${student.score}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            } 
+            // 情况 3: 没找到
+            else {
+                resultArea.innerHTML = `
+                    <div class="flex flex-col items-center justify-center p-8 bg-slate-50 text-slate-500 rounded-xl border border-slate-200 border-dashed">
+                        <div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mb-3 text-2xl">🤔</div>
+                        <p class="font-medium text-lg text-slate-700">没有找到该同学的开题记录</p>
+                        <p class="text-sm mt-1">本系统仅为娱乐演示，请输入下方名单中的名字试试。</p>
+                    </div>
+                `;
+            }
+        }
+
+        // ==========================================
+        // 4. 事件监听
+        // ==========================================
+        
+        // 页面加载完成后执行
+        document.addEventListener('DOMContentLoaded', () => {
+            renderTable();
+        });
+
+        // 按钮点击
+        searchBtn.addEventListener('click', handleSearch);
+
+        // 回车键支持
+        nameInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleSearch();
+            }
+        });
+
+    </script>
+<script type="module" src="/index.tsx"></script>
+</body>
+</html>
